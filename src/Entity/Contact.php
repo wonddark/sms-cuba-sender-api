@@ -16,7 +16,9 @@ use Symfony\Component\Serializer\Annotation\Groups;
  *     },
  *     itemOperations={
  *          "get", "patch", "delete"
- *     }
+ *     },
+ *     normalizationContext = { "groups": { "contact:read" } },
+ *     denormalizationContext = { "groups": { "contact:write" } }
  * )
  * @ORM\Entity(repositoryClass=ContactRepository::class)
  */
@@ -26,29 +28,38 @@ class Contact
      * @ORM\Id
      * @ORM\GeneratedValue
      * @ORM\Column(type="integer")
+     * @Groups("user:read")
+     * @Groups("contact:read")
      */
     protected $id;
 
     /**
      * @ORM\Column(type="string", length=255)
      * @Groups("user:read")
+     * @Groups("contact:read")
+     * @Groups("contact:write")
      */
     private $name;
 
     /**
      * @ORM\Column(type="string", length=8)
      * @Groups("user:read")
+     * @Groups("contact:read")
+     * @Groups("contact:write")
      */
     private $phone;
 
     /**
      * @ORM\ManyToOne(targetEntity=User::class, inversedBy="contacts")
      * @ORM\JoinColumn(nullable=false)
+     * @Groups("contact:read")
      */
     private $user;
 
     /**
      * @ORM\ManyToMany(targetEntity=Message::class, mappedBy="contacts")
+     * @Groups("user:read")
+     * @Groups("contact:read")
      */
     private $messages;
 
