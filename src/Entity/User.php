@@ -16,7 +16,8 @@ use Symfony\Component\Serializer\Annotation\Groups;
  *          "post" = { "path" = "/register" }
  *     },
  *     itemOperations={
- *          "get", "patch", "delete"
+ *          "get", "patch",
+ *          "delete" = { "path" = "/unregister/{id}" }
  *     },
  *     normalizationContext = { "groups" = { "user:read" } },
  *     denormalizationContext = { "groups" = { "user:write" } }
