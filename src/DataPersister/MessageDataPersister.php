@@ -41,7 +41,7 @@ class MessageDataPersister implements DataPersisterInterface
         $this->httpClient->request('POST',
             'https://ender.onrender.com/messages/create',
             ['headers' =>
-                ['Authorization'=>'Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJ1c2VyX2lkIjoiNmU2MmJiMGUtOTc5MS00ZGYyLTliNDAtMWMzOWMzMmI4ODQwIiwiYXVkIjpbImZhc3RhcGktdXNlcnM6YXV0aCJdLCJleHAiOjE2NTMwMzQ3NDF9.W2x2biK762HhTni8Lqk7SbcSUtsGX0UCoUuyorzf6G8'],
+                ['Authorization'=>"Bearer {$_ENV['SMS_GATEWAY_TOKEN']}"],
                 'json' =>
                 ['phone' => $data->getContacts()[0]->getPhone(),
                     'message_body' => $data->getContent()]
