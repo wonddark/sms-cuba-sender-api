@@ -5,6 +5,7 @@ namespace App\DataPersister;
 use ApiPlatform\Core\DataPersister\DataPersisterInterface;
 use App\Entity\Message;
 use Doctrine\ORM\EntityManagerInterface;
+use Symfony\Component\Security\Core\Security;
 use Symfony\Contracts\HttpClient\Exception\TransportExceptionInterface;
 use Symfony\Contracts\HttpClient\HttpClientInterface;
 
@@ -12,12 +13,14 @@ class MessageDataPersister implements DataPersisterInterface
 {
     private $entityManager;
     private $httpClient;
+    private $security;
 
     public function __construct(EntityManagerInterface $manager,
-                               HttpClientInterface $client)
+                               HttpClientInterface $client, Security $security)
     {
         $this->entityManager = $manager;
         $this->httpClient = $client;
+        $this->security = $security;
     }
 
     /**
@@ -43,6 +46,8 @@ class MessageDataPersister implements DataPersisterInterface
                 ['phone' => $data->getContacts()[0]->getPhone(),
                     'message_body' => $data->getContent()]
             ]);
+        /** @noinspection PhpParamsInspection */
+        $data->setUser($this->security->getUser());
         $this->entityManager->persist($data);
         $this->entityManager->flush();
     }

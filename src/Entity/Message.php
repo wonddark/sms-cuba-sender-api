@@ -7,6 +7,7 @@ use App\Repository\MessageRepository;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Serializer\Annotation\Groups;
 
 /**
  * @ApiResource(
@@ -15,7 +16,8 @@ use Doctrine\ORM\Mapping as ORM;
  *     },
  *     itemOperations={
  *          "get", "patch", "delete"
- *     }
+ *     },
+ *     denormalizationContext = { "groups" = { "message:write" } }
  * )
  * @ORM\Entity(repositoryClass=MessageRepository::class)
  */
@@ -30,6 +32,7 @@ class Message
 
     /**
      * @ORM\Column(type="text")
+     * @Groups("message:write")
      */
     private $content;
 
@@ -41,6 +44,7 @@ class Message
 
     /**
      * @ORM\ManyToMany(targetEntity=Contact::class, inversedBy="messages")
+     * @Groups("message:write")
      */
     private $contacts;
 
