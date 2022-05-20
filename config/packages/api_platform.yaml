@@ -1,7 +1,17 @@
 api_platform:
+    title: 'SMS Cuba Sender API'
+    version: '0.0.0'
     mapping:
         paths: ['%kernel.project_dir%/src/Entity']
     patch_formats:
         json: ['application/merge-patch+json']
     swagger:
         versions: [3]
+        api_keys:
+            authorization_token:
+                name: Authorization
+                type: header
+    defaults:
+        pagination_client_items_per_page: true
+        pagination_items_per_page: 50
+        pagination_maximum_items_per_page: 500
